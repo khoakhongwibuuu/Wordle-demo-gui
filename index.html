@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Wordle • 6 guesses • 5 letters</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
@@ -15,15 +15,18 @@
             <header>
                 <h1>WORDLE</h1>
                 <div class="hints">
-                    <button id="hint-vowel" class="hint-btn" title="Get a vowel hint">
+                    <button id="hint-vowel" class="hint-btn" title="Get a vowel hint" tabindex="-1">
                         <i class="fa-solid fa-lightbulb"></i> Vowel
                     </button>
-                    <button id="hint-consonant" class="hint-btn" title="Get a consonant hint">
+                    <button id="hint-consonant" class="hint-btn" title="Get a consonant hint" tabindex="-1">
                         <i class="fa-solid fa-lightbulb"></i> Consonant
                     </button>
-                    <!-- <button id="toggle-theme" class="theme-btn" title="Toggle light/dark theme">
-                        <i class="fa-solid fa-sun"></i>
-                    </button> -->
+                    <button id="game-reset" class="theme-btn" title="Reset" tabindex="-1">
+                        <i class="fa-solid fa-arrows-rotate"></i> Restart
+                    </button>
+                    <button id="toggle-theme" class="theme-btn" title="Toggle light/dark theme" tabindex="-1">
+                        <i class="fa-solid fa-sun"></i> Toggle theme
+                    </button>
                 </div>
             </header>
 

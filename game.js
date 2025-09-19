@@ -8,14 +8,12 @@ let currentCol = 0;
 let targetWord = "";
 let words = [];
 
-
 fetch("wordle.txt")
     .then(res => res.text())
     .then(text => {
         words = text.split(/\r?\n/).filter(w => w.length === 5);
         targetWord = words[Math.floor(Math.random() * words.length)].toUpperCase();
     });
-
 
 function buildBoard() {
     for (let r = 0; r < rows; r++) {
@@ -31,7 +29,6 @@ function buildBoard() {
     }
 }
 
-
 const keys = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
@@ -46,13 +43,13 @@ function buildKeyboard() {
             let key = document.createElement("button");
             key.className = "key" + (k === "Enter" || k === "Del" ? " wide" : "");
             key.textContent = k;
+            key.setAttribute("tabindex", "-1");
             key.addEventListener("click", () => handleKey(k));
             row.appendChild(key);
         });
         keyboard.appendChild(row);
     });
 }
-
 
 function handleKey(key) {
     if (key === "Del") {
@@ -72,7 +69,6 @@ function handleKey(key) {
     }
 }
 
-
 function setTile(row, col, letter) {
     const tile = document.getElementById(`tile-${row}-${col}`);
     tile.textContent = letter;
@@ -82,7 +78,6 @@ function setTile(row, col, letter) {
         tile.classList.remove("empty");
     }
 }
-
 
 function checkGuess() {
     let guess = "";
@@ -128,7 +123,6 @@ function checkGuess() {
     }
 }
 
-
 function shakeRow(row) {
     for (let c = 0; c < cols; c++) {
         let tile = document.getElementById(`tile-${row}-${c}`);
@@ -137,14 +131,12 @@ function shakeRow(row) {
     }
 }
 
-
 window.addEventListener("keydown", e => {
     let key = e.key.toUpperCase();
     if (key === "BACKSPACE") handleKey("Del");
     else if (key === "ENTER") handleKey("Enter");
     else if (/^[A-Z]$/.test(key)) handleKey(key);
 });
-
 
 buildBoard();
 buildKeyboard();
@@ -154,33 +146,27 @@ function revealHint(type) {
     const letters = targetWord.split("");
     let candidates;
 
-
     if (type === "vowel") {
         candidates = letters.filter(l => vowels.includes(l));
     } else {
         candidates = letters.filter(l => !vowels.includes(l));
     }
 
-
     if (candidates.length === 0) {
         alert("No " + type + "s in the word!");
         return;
     }
 
-
     const randomLetter = candidates[Math.floor(Math.random() * candidates.length)];
 
 
-    // Highlight the corresponding key on keyboard
     const keyBtn = [...document.querySelectorAll(".key")].find(b => b.textContent === randomLetter);
     if (keyBtn) {
         keyBtn.classList.add("present");
     }
 
-
     alert("Hint: The word contains the letter '" + randomLetter + "'");
 }
-
 
 document.getElementById("hint-vowel").addEventListener("click", function () {
     if (!this.classList.contains("used")) {
@@ -189,10 +175,41 @@ document.getElementById("hint-vowel").addEventListener("click", function () {
     }
 });
 
-
 document.getElementById("hint-consonant").addEventListener("click", function () {
     if (!this.classList.contains("used")) {
         revealHint("consonant");
         this.classList.add("used");
+    }
+});
+
+document.getElementById("game-reset").addEventListener("click", function () {
+    window.location.reload();
+});
+
+const themeToggle = document.getElementById("toggle-theme");
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "light") {
+    document.body.classList.add("light");
+    themeToggle.querySelector("i").classList.remove("fa-moon");
+    themeToggle.querySelector("i").classList.add("fa-sun");
+
+} else {
+    document.body.classList.remove("light");
+    themeToggle.querySelector("i").classList.remove("fa-sun");
+    themeToggle.querySelector("i").classList.add("fa-moon");
+}
+
+themeToggle.addEventListener("click", function () {
+    document.body.classList.toggle("light");
+    const icon = this.querySelector("i");
+    if (document.body.classList.contains("light")) {
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+        localStorage.setItem("theme", "light");
+    } else {
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
+        localStorage.setItem("theme", "dark");
     }
 });
