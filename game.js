@@ -14,7 +14,6 @@ fetch("wordle.txt")
     .then(text => {
         words = text.split(/\r?\n/).filter(w => w.length === 5);
         targetWord = words[Math.floor(Math.random() * words.length)].toUpperCase();
-        console.log(targetWord)
     });
 
 
@@ -197,18 +196,3 @@ document.getElementById("hint-consonant").addEventListener("click", function () 
         this.classList.add("used");
     }
 });
-
-
-// document.getElementById("toggle-theme").addEventListener("click", function () {
-//     document.body.classList.toggle("light");
-//     document.querySelector('.container').classList.toggle("light");
-//     document.querySelector('.board').classList.toggle("light");
-//     const icon = this.querySelector("i");
-//     if (document.body.classList.contains("light")) {
-//         icon.classList.remove("fa-sun");
-//         icon.classList.add("fa-moon");
-//     } else {
-//         icon.classList.remove("fa-moon");
-//         icon.classList.add("fa-sun");
-//     }
-// });
